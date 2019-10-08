@@ -1,10 +1,10 @@
 # is-equal-objects
-[![Build Status](https://travis-ci.com/DigitalBrainJS/is-equal-objects.svg?branch=master)](https://travis-ci.com/DigitalBrainJS/is-equal-objects)
+[![Build Status](https://travis-ci.com/DigitalBrainJS/isEqualObjects.svg?branch=master)](https://travis-ci.com/DigitalBrainJS/isEqualObjects)
 [![](https://badgen.net/bundlephobia/min/is-equal-objects)](https://unpkg.com/is-equal-objects/dist/is-equal-objects.umd.js)
 [![](https://badgen.net/bundlephobia/minzip/is-equal-objects)](https://unpkg.com/is-equal-objects/dist/is-equal-objects.umd.js)
 [![](https://badgen.net/npm/license/is-equal-objects)](https://unpkg.com/is-equal-objects/dist/is-equal-objects.umd.js)
-[![](https://badgen.net/github/issues/DigitalBrainJS/is-equal-objects)](https://github.com/DigitalBrainJS/is-equal-objects/issues)
-[![](https://badgen.net/github/stars/DigitalBrainJS/is-equal-objects)](https://github.com/DigitalBrainJS/is-equal-objects/stargazers)
+[![](https://badgen.net/github/issues/DigitalBrainJS/isEqualObjects)](https://github.com/DigitalBrainJS/isEqualObjects/issues)
+[![](https://badgen.net/github/stars/DigitalBrainJS/isEqualObjects)](https://github.com/DigitalBrainJS/isEqualObjects/stargazers)
 [![Coverage Status](https://coveralls.io/repos/github/DigitalBrainJS/isEqualObjects/badge.svg?branch=master)](https://coveralls.io/github/DigitalBrainJS/isEqualObjects?branch=master)
 
 Check whether objects are equal in deep. Useful for checking options objects. 
