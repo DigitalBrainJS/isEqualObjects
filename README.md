@@ -5,15 +5,16 @@
 [![](https://badgen.net/npm/license/is-equal-objects)](https://unpkg.com/is-equal-objects/dist/is-equal-objects.umd.js)
 [![](https://badgen.net/github/issues/DigitalBrainJS/is-equal-objects)](https://github.com/DigitalBrainJS/is-equal-objects/issues)
 [![](https://badgen.net/github/stars/DigitalBrainJS/is-equal-objects)](https://github.com/DigitalBrainJS/is-equal-objects/stargazers)
+[![Coverage Status](https://coveralls.io/repos/github/DigitalBrainJS/isEqualObjects/badge.svg?branch=master)](https://coveralls.io/github/DigitalBrainJS/isEqualObjects?branch=master)
 
 Check whether objects are equal in deep. Useful for checking options objects. 
 
 # Features
-- Arrays and flat objects (whose constructor is Object and _proto_ is Object.prototype) will be deeply tested
-- NaN === NaN
-- Date, Regexp will be checked by reference or value, other complex objects will be simply compared by reference
-- no dependencies
-- CDN friendly
+-  Arrays and flat objects (whose constructor is Object and _proto_ is Object.prototype) will be deeply tested
+-  NaN === NaN
+-  Date, Regexp will be checked by reference or value, other complex objects will be simply compared by reference
+-  no dependencies
+-  CDN friendly
 
 ## Installation
 
