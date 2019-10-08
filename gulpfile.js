@@ -93,17 +93,10 @@ const webserver= ()=>{
 
 const buildTask = createBuildTask(ENTRY_FILE, {exportName: EXPORT_NAME || toCamelCase(BASE_NAME), toES5: true, minify: true});
 const buildTaskES = createBuildTask(ENTRY_FILE, {format: 'esm', minify: true});
-const buildTests = createBuildTask(`test/${BASE_NAME}.spec.js`, {
-    taskTargetName: 'tests',
-    format: 'cjs',
-    include: ['node_modules/**', 'dist/**'],
-    toES5: true,
-    destPath: './test/build/'
-});
+const buildTaskCJS = createBuildTask(ENTRY_FILE, {format: 'cjs', minify: false});
 
 const runTests= (done)=>{
     exec('npm run tests:run', (err, stdout) => {
-
         console.log(`test:\n ${stdout}`);
 
         if(isDevMode){
@@ -114,7 +107,7 @@ const runTests= (done)=>{
     });
 };
 
-const build= gulp.parallel(buildTask, buildTaskES);
+const build= gulp.parallel(buildTask, buildTaskES, buildTaskCJS);
 
 const setDevEnv= (done)=> {
     isDevMode= true;
@@ -123,7 +116,7 @@ const setDevEnv= (done)=> {
 
 const watchSources= (done)=>{
     console.log('Sources watcher started');
-    gulp.watch('./src/**/*.js', gulp.series(build, buildTests, runTests), function (file) {
+    gulp.watch('./src/**/*.js', gulp.series(build, runTests), function (file) {
         console.log(`File [${file.path}] has been changed`);
     });
     done();
@@ -131,7 +124,7 @@ const watchSources= (done)=>{
 
 const watchTests= (done)=>{
     console.log('Tests watcher started');
-    gulp.watch('./test/*.js', gulp.series(buildTests, runTests), function (file) {
+    gulp.watch('./test/*.js', runTests, function (file) {
         console.log(`File [${file.path}] has been changed`);
     });
     done();
@@ -139,7 +132,7 @@ const watchTests= (done)=>{
 
 const watch= gulp.series(watchSources, watchTests);
 
-const dev= gulp.series(setDevEnv, build, buildTests, gulp.parallel(runTests, webserver, watch));
+const dev= gulp.series(setDevEnv, build, gulp.parallel(runTests, webserver, watch));
 
 module.exports= {
     default: dev,

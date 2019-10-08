@@ -1,6 +1,6 @@
-import isEqualObjects from "../dist/is-equal-objects.esm";
-import prettyFormat from 'pretty-format'
-import chai from "chai";
+const isEqualObjects= require("../dist/is-equal-objects.cjs");
+const prettyFormat= require('pretty-format');
+const chai= require("chai");
 
 const {expect} = chai;
 
