@@ -1,0 +1,61 @@
+{
+  "name": "is-equal-objects",
+  "version": "0.1.0",
+  "description": "Check whether objects are equal in deep. Useful for checking options objects",
+  "main": "index.js",
+  "module": "./dist/is-equal-objects.esm.js",
+  "unpkg": "./dist/is-equal-objects.umd.min.js",
+  "jsnext:main": "./dist/is-equal-objects.esm.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run tests:build && npm run tests:run",
+    "tests:run": "mocha test/build/",
+    "tests:build": "gulp build:tests",
+    "build": "shx rm -rf dist && gulp build",
+    "dev": "gulp dev",
+    "watch": "gulp watch",
+    "prepublishOnly": "npm run build && npm test",
+    "postversion": "git push && git push --tags",
+    "lint": "eslint src"
+  },
+  "keywords": [
+    "equal",
+    "same",
+    "deep",
+    "isequal",
+    "compare",
+    "object",
+    "test"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-arrow-functions": "^7.2.0",
+    "@babel/plugin-transform-block-scoping": "^7.2.0",
+    "@babel/plugin-transform-destructuring": "^7.2.0",
+    "@babel/plugin-transform-parameters": "^7.2.0",
+    "@babel/plugin-transform-shorthand-properties": "^7.2.0",
+    "@babel/plugin-transform-template-literals": "^7.2.0",
+    "chai": "^4.2.0",
+    "connect": "^3.6.6",
+    "expect": "^23.6.0",
+    "gulp": "^4.0.2",
+    "gulp-better-rollup": "^4.0.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "mocha": "^5.2.0",
+    "pretty-format": "^24.9.0",
+    "rollup": "^1.20.3",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.4",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "run-sequence": "^2.2.1",
+    "serve-static": "^1.13.2",
+    "shx": "^0.3.2",
+    "through2": "^3.0.1"
+  },
+  "author": "Dmitriy Mozgovoy",
+  "license": "MIT"
+}
