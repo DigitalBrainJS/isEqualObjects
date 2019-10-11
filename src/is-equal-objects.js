@@ -3,7 +3,6 @@ const {hasOwnProperty} = Object.prototype;
 const objectPrototype = Object.prototype;
 
 function isFlatObject(obj) {
-    if (obj === null || typeof obj !== "object") return false;
     const {constructor} = obj;
     const prototype = Object.getPrototypeOf(obj);
     return (!constructor || constructor === Object) && (!prototype || prototype === objectPrototype);
@@ -12,7 +11,8 @@ function isFlatObject(obj) {
 const {isArray} = Array;
 
 export default function isEqualObjects(obj, targetObj) {
-    const isEqual = (value, targetValue) => {
+
+    const isEqual = (value, targetValue, stack) => {
         if (value === targetValue) {
             return true;
         }
@@ -29,7 +29,7 @@ export default function isEqualObjects(obj, targetObj) {
                         return false;
                     }
                     for (let i = 0; i < length; i++) {
-                        if (!isEqual(value[i], targetValue[i])){
+                        if (!isEqual(value[i], targetValue[i], stack.concat([value]))){
                             return false;
                         }
                     }
@@ -39,7 +39,8 @@ export default function isEqualObjects(obj, targetObj) {
                 return targetValue instanceof Date && (+value === +targetValue);
             } else if (value instanceof RegExp) {
                 return targetValue instanceof RegExp && value.toString() === targetValue.toString();
-            } else if (isFlatObject(value) && isFlatObject(targetValue)) {
+            } else if (isFlatObject(value) && isFlatObject(targetValue) && stack.indexOf(value)===-1) {
+
                 const keys = Object.keys(value);
                 const targetKeys = Object.keys(targetValue);
                 const {length} = keys;
@@ -53,7 +54,7 @@ export default function isEqualObjects(obj, targetObj) {
                     }
                     const propValue = value[key];
                     const targetPropValue = targetValue[key];
-                    if (!isEqual(propValue, targetPropValue)) {
+                    if (!isEqual(propValue, targetPropValue, stack.concat([value]))) {
                         return false;
                     }
                 }
@@ -64,7 +65,7 @@ export default function isEqualObjects(obj, targetObj) {
     };
     const {length} = arguments;
     for (let i = 1; i < length; i++) {
-        if (!isEqual(obj, arguments[i])) {
+        if (!isEqual(obj, arguments[i], [])) {
             return false;
         }
     }

@@ -34,6 +34,13 @@ describe("isEqualObjects", function () {
             [complexObject1, complexObject2],
             [undefined, null],
             [undefined, ""],
+            [[1], [1,2,3]],
+            [{x:1}, {x:1, y:2}],
+            [[1], [2]],
+            [{x:1}, {x:2}],
+            [{x:1}, {y:1}],
+            [[1], {y:1}],
+            [{x: {y:1}}, null]
         ]
     };
 
@@ -52,4 +59,11 @@ describe("isEqualObjects", function () {
             expect(result).to.be.false;
         });
     });
+
+    it('should work with circular references', function(){
+        const obj1= {x:1};
+        obj1.self= obj1;
+        const result = isEqualObjects({x:1, self: obj1}, obj1);
+        expect(result).to.be.true;
+    })
 });

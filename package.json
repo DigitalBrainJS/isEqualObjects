@@ -1,6 +1,6 @@
 {
   "name": "is-equal-objects",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Check whether objects are equal in deep. Useful for checking options objects",
   "main": "index.js",
   "module": "./dist/is-equal-objects.esm.js",

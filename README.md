@@ -13,7 +13,8 @@ Check whether objects are equal in deep. Useful for checking options objects.
 -  Arrays and flat objects (whose constructor is Object and _proto_ is Object.prototype) will be deeply tested
 -  NaN === NaN
 -  Date, Regexp will be checked by reference or value, other complex objects will be simply compared by reference
--  no dependencies
+-  Circular references to objects will be compared by reference 
+-  No dependencies
 -  CDN friendly
 
 ## Installation
