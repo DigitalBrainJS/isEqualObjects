@@ -2,15 +2,19 @@ const {hasOwnProperty} = Object.prototype;
 
 const objectPrototype = Object.prototype;
 
-function isFlatObject(obj) {
+const plainObjectSymbol = Symbol.for('isEqualObject:plainObject');
+
+function isPlainObject(obj) {
     const {constructor} = obj;
     const prototype = Object.getPrototypeOf(obj);
-    return (!constructor || constructor === Object) && (!prototype || prototype === objectPrototype);
+    return obj[plainObjectSymbol] || (!constructor || constructor === Object) && (!prototype || prototype === objectPrototype);
 }
 
 const {isArray} = Array;
 
 export default function isEqualObjects(obj, targetObj) {
+
+    const {comparator} = this || {};
 
     const isEqual = (value, targetValue, stack) => {
         if (value === targetValue) {
@@ -20,6 +24,8 @@ export default function isEqualObjects(obj, targetObj) {
         if (value !== value && targetValue !== targetValue){
             return true;
         }
+
+        let result;
 
         if (typeof value === "object" && typeof targetValue === "object" && value && targetValue) {
             if (isArray(value)) {
@@ -39,7 +45,9 @@ export default function isEqualObjects(obj, targetObj) {
                 return targetValue instanceof Date && (+value === +targetValue);
             } else if (value instanceof RegExp) {
                 return targetValue instanceof RegExp && value.toString() === targetValue.toString();
-            } else if (isFlatObject(value) && isFlatObject(targetValue) && stack.indexOf(value)===-1) {
+            } else if (comparator && (result = comparator(value, targetValue)) !== undefined) {
+                return result;
+            } else if (isPlainObject(value) && isPlainObject(targetValue) && stack.indexOf(value)===-1) {
 
                 const keys = Object.keys(value);
                 const targetKeys = Object.keys(targetValue);
@@ -72,4 +80,7 @@ export default function isEqualObjects(obj, targetObj) {
     return true;
 }
 
+Object.defineProperties(isEqualObjects, {
+    plainObject: {value: plainObjectSymbol}
+})
 

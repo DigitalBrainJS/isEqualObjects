@@ -27,6 +27,10 @@
     "test": "nyc --reporter=html --reporter=text mocha test/ --exit --timeout=3000",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
+  "typings": "./isEqualObjects.d.ts",
+  "typescript": {
+    "definition": "./isEqualObjects.d.ts"
+  },
   "keywords": [
     "equal",
     "same",

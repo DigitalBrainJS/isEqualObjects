@@ -27,6 +27,13 @@ describe("isEqualObjects", function () {
             [{x: {}}, {x: {}}],
             [{x: {y: {}}}, {x: {y: {}}}],
             [{x: complexObject1}, {x: complexObject1}],
+            [Object.create({
+                [isEqualObjects.plainObject]: true,
+                x: 123
+            }), Object.create({
+                [isEqualObjects.plainObject]: true,
+                x: 123
+            })]
         ],
 
         false: [
@@ -65,5 +72,13 @@ describe("isEqualObjects", function () {
         obj1.self= obj1;
         const result = isEqualObjects({x:1, self: obj1}, obj1);
         expect(result).to.be.true;
+    })
+
+    it('should support custom object comparator passed via fn context', ()=>{
+        expect(isEqualObjects.call({
+            comparator(obj1, obj2){
+                return obj1.x === obj2.x;
+            }
+        }, {x: 123, ignoredProp: 456}, {x:123, ignoredProp: 987})).to.be.true;
     })
 });

@@ -65,6 +65,23 @@ Basic usage:
 
     isEqualObjects(new Date(1995, 11, 17), new Date(1995, 11, 17)); //true
     isEqualObjects(/\s+/, /\s+/); //true
+
+     isEqualObjects(
+            Object.create({
+                [isEqualObjects.plainObject]: true,
+                x: 123
+            }), 
+            Object.create({
+                [isEqualObjects.plainObject]: true,
+                x: 123
+            })
+     ); // true
+
+     isEqualObjects.call({
+        comparator(obj1, obj2){
+           return obj1.x === obj2.x;
+        }
+     }, {x: 123, ignoredProp: 456}, {x:123, ignoredProp: 987})
 ````
 ## API
 
@@ -72,7 +89,13 @@ Basic usage:
 
   - `...objects` objects to check
   
-  **returns** false, if the objects are not deeply equal, true otherwise
+  **returns** `false`, if the objects are not deeply equal, `true` otherwise  
+  
+  Additional options can be passed via function context (`this`):
+  
+  - `comparator(obj1: any, obj2: any): boolean|undefined` - a custom object comparator
+  
+
 
 ## Contribution
  Feel free to fork, open issues, enhance or create pull requests. 
