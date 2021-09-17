@@ -6,3 +6,7 @@ export interface isEqualObjects {
     (this: isEqualObjectsContext, ...objects: any): boolean,
     plainObject: Symbol
 }
+
+export interface cloneObject {
+    (obj: any): any
+}
