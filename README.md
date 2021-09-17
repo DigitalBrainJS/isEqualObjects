@@ -45,9 +45,9 @@ Use unpkg.com cdn to get the link to the script/module from the package:
 ```
 - ESM ES2015 module(~2kB)
 ```javascript
-import isEqualObjects from "https://unpkg.com/is-equal-objects/dist/is-equal-objects.esm.js"
+import {isEqualObjects, cloneObject} from "https://unpkg.com/is-equal-objects/dist/is-equal-objects.esm.js"
 //or minified version
-import isEqualObjects from "https://unpkg.com/is-equal-objects/dist/is-equal-objects.esm.min.js"
+import {isEqualObjects, cloneObject} from "https://unpkg.com/is-equal-objects/dist/is-equal-objects.esm.min.js"
 ```
 
 ## Usage examples
@@ -81,7 +81,17 @@ Basic usage:
         comparator(obj1, obj2){
            return obj1.x === obj2.x;
         }
-     }, {x: 123, ignoredProp: 456}, {x:123, ignoredProp: 987})
+     }, {x: 123, ignoredProp: 456}, {x:123, ignoredProp: 987});
+
+// cloneObject usage
+
+     const sourceObj= {x: {y: new Date()}};
+
+     const clonedObject = cloneObject(sourceObj);
+     
+     console.log(sourceObj.x === clonedObj.x); // false
+     console.log(sourceObj.x.y === clonedObj.x.y); // false
+     console.log(isEqualObjects(sourceObj, clonedObject)); // true
 ````
 ## API
 
@@ -95,7 +105,11 @@ Basic usage:
   
   - `comparator(obj1: any, obj2: any): boolean|undefined` - a custom object comparator
   
+### cloneObject(obj: any): any
 
+ - `obj` any object to clone
+ 
+  **returns** a deep copy of the object
 
 ## Contribution
  Feel free to fork, open issues, enhance or create pull requests. 

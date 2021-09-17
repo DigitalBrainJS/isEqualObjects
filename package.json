@@ -52,6 +52,7 @@
     "codacy-coverage": "^3.4.0",
     "connect": "^3.6.6",
     "coveralls": "^3.0.6",
+    "deep-equal-in-any-order": "^1.1.13",
     "expect": "^23.6.0",
     "gulp": "^4.0.2",
     "gulp-better-rollup": "^4.0.1",

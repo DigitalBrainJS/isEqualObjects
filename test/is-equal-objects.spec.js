@@ -1,6 +1,9 @@
-const isEqualObjects= require("../dist/is-equal-objects.cjs");
+const deepEqualInAnyOrder = require('deep-equal-in-any-order');
+const {isEqualObjects, cloneObject}= require("../src/is-equal-objects.js");
 const prettyFormat= require('pretty-format');
 const chai= require("chai");
+
+chai.use(deepEqualInAnyOrder);
 
 const {expect} = chai;
 
@@ -81,4 +84,46 @@ describe("isEqualObjects", function () {
             }
         }, {x: 123, ignoredProp: 456}, {x:123, ignoredProp: 987})).to.be.true;
     })
+});
+
+describe("cloneObjects", function () {
+    it('should clone primitives values', ()=>{
+        const source = {
+            x: 1,
+            y: "2"
+        };
+
+        expect(cloneObject(source)).to.deep.equalInAnyOrder({
+            x: 1,
+            y: "2"
+        })
+    });
+
+    it('should clone complex nested values', ()=>{
+        const source = {
+            x: 1,
+            y: {
+                z: {
+                    a: [new Date(123456), new RegExp(/\s+/), null]
+                }
+            }
+        };
+
+        const cloned = cloneObject(source);
+
+        expect(cloned.y).to.not.equal(source.y);
+        expect(cloned.y.z).to.not.equal(source.y.z);
+        expect(cloned.y.z.a).to.not.equal(source.y.z.a);
+        expect(cloned.y.z.a[0] === source.y.z.a[0]).to.be.false;
+        expect(cloned.y.z.a[1] === source.y.z.a[1]).to.be.false;
+
+        expect(cloned).to.deep.equalInAnyOrder({
+            x: 1,
+            y: {
+                z: {
+                    a: [new Date(123456), new RegExp(/\s+/), null]
+                }
+            }
+        })
+    });
 });

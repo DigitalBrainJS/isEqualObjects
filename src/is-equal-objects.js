@@ -12,9 +12,9 @@ function isPlainObject(obj) {
 
 const {isArray} = Array;
 
-export default function isEqualObjects(obj, targetObj) {
+function isEqualObjects(obj, targetObj) {
 
-    const {comparator} = this || {};
+    const {comparator, compareSymbols} = this || {};
 
     const isEqual = (value, targetValue, stack) => {
         if (value === targetValue) {
@@ -49,8 +49,8 @@ export default function isEqualObjects(obj, targetObj) {
                 return result;
             } else if (isPlainObject(value) && isPlainObject(targetValue) && stack.indexOf(value)===-1) {
 
-                const keys = Object.keys(value);
-                const targetKeys = Object.keys(targetValue);
+                const keys = compareSymbols ? getAllProps(value) : Object.keys(value);
+                const targetKeys = compareSymbols ? getAllProps(targetValue) : Object.keys(targetValue);
                 const {length} = keys;
                 if (length !== targetKeys.length){
                     return false;
@@ -84,3 +84,66 @@ Object.defineProperties(isEqualObjects, {
     plainObject: {value: plainObjectSymbol}
 })
 
+
+const cloneMap= new Map([
+  [RegExp, target => new RegExp(target.source, target.flags)],
+  [Date, target => new Date(+target)]
+]);
+
+const getAllProps= (obj)=> Object.keys(obj).concat(Object.getOwnPropertySymbols(obj));
+
+function cloneObject(obj) {
+    const cloneTarget = (target, stack) => {
+        if (typeof target !== 'object') {
+            return target;
+        }
+
+        if (target === null) return null;
+
+        if (isArray(target)) {
+            const len = target.length;
+            const cloned = new Array(len);
+            let targetStack = len && (stack ? stack.concat(target) : [target]);
+            for (let i = 0; i < len; i++) {
+                cloned[i] = cloneTarget(
+                  target[i],
+                  targetStack
+                );
+            }
+            return cloned;
+        }
+
+        const {constructor} = target;
+        const cloner = constructor && cloneMap.get(constructor);
+        if (cloner) {
+            return cloner(target, stack);
+        }
+
+        if (isPlainObject(target) && (!stack || stack.indexOf(target) === -1)) {
+            const proto = Object.getPrototypeOf(target);
+            const cloned = proto === objectPrototype ? {} : Object.create(objectPrototype);
+            const props = getAllProps(target);
+            let len = props.length;
+            let prop;
+            let targetStack = len && (stack ? stack.concat(target) : [target]);
+            for(let i=0; i< len; i++){
+                prop = props[i];
+                cloned[prop] = cloneTarget(
+                  target[prop],
+                  targetStack
+                );
+            }
+            return cloned;
+        }
+
+        return target;
+    }
+
+    return cloneTarget(obj, null);
+}
+
+
+module.exports= {
+    isEqualObjects,
+    cloneObject
+}
